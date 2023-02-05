@@ -8,13 +8,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TeacherController extends AbstractController
 {
-    #[Route('/teacher/{name}')]
+    #[Route('/Teacher/{name}')]
     public function showTeacher($name)
     {
         return new Response("Bonjour $name");
     }
-    #[Route('/teacher2/{name}')]
-    public function showTeacher2($name): Response
+    #[Route('/Teacher1/{name}')]
+    public function showTeacher1($name): Response
     {
         return $this->render('/teacher/showTeacher.html.twig', ['name' => $name]);
     }
