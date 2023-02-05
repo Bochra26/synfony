@@ -8,12 +8,19 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TeacherController extends AbstractController
 {
-    #[Route('/teacher', name: 'app_teacher')]
-    public function index(): JsonResponse
+    #[Route('/teacher/{name}')]
+    public function showTeacher($name)
     {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/TeacherController.php',
-        ]);
+        return new Response("Bonjour $name");
+    }
+    #[Route('/teacher1/{name}')]
+    public function showTeacher1($name): Response
+    {
+        return $this->render('/teacher/showTeacher.html.twig', ['name' => $name]);
+    }
+    #[Route('/goToIndex')]
+    public function goToIndex()
+    {
+        return $this->forward('App\Controller\StudentController::index');
     }
 }
