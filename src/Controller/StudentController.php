@@ -1,0 +1,58 @@
+<?php
+
+namespace App\Controller;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+class StudentController extends AbstractController
+{
+    #[Route('/student', name: 'app_student')]
+    public function index(): Response
+    {
+        $repo = $doctrine->getRepository(Student::class);
+        $student=$repo->findAll();
+        return $this->render('student/index.html.twig', [
+            'controller_name' => 'StudentController',
+            'student'=> $student,
+        ]);
+    }
+   
+
+    /**
+     * @Route("/addStudent", name="addStudent")
+     */
+    public function addStudent(Request $req)
+    {
+        $student = new Student();
+        $form = $this->createForm(StudentType::class,$student);
+        $form->handleRequest($req);
+        if($form->isSubmitted())
+        {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($student);
+            $em->flush();
+        return $this->redirectToRoute('app_student');
+        }
+
+    }
+    #[Route('/deleteStudent/{id}',name:'student_delete')]
+    public function deleteStudent($id,StudentRepository $repo){
+       $student =$repo -> find($id);
+       $em =$doctrine ->getManager();
+       $em -> remove($student);
+       $em -> flush();
+       $this -> redirectToRoute('app_student');
+    }
+    #[Route('/updateStudent/{id}',name:'student_update')]
+    public function updateStudent($id,StudentRepository $repo){
+       $student =$repo -> find($id);
+        $student -> setName(' Student updated');
+        $em =$doctrine ->getManager();
+        $em->flush();
+         return $this -> redirectToRoute('app_student');
+      
+}
+
+}

@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello StudentController!{% endblock %}
+
+{% block body %}
+<table border ="1">
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Email</th>
+</tr>
+{% for c in classrooms%}
+<tr>
+<th>{{c.id}}</th>
+<th>{{c.username}}</th>
+<th>{{c.email}}</th>
+<td><a href="{{path('classroom_delete',{'id':c.id})}}"> Delete </a></td>
+<td><a href="{{path('classroom_update',{'id':c.id})}}"> Update </a></td>
+</tr>
+{%endfor%}
+{% endblock %}
+
+</table>
